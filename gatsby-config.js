@@ -1,141 +1,81 @@
+/**
+ * 👋 Hey there!
+ * This file is the starting point for your new WordPress/Gatsby site! 🚀
+ * For more information about what this file is and does, see
+ * https://www.gatsbyjs.com/docs/gatsby-config/
+ *
+ */
+
 module.exports = {
-  siteMetadata: {
-    title: `Ajay Gatsby Blog`,
-    author: {
-      name: `Ajay Kumar`,
-      summary: `Blogger And YouTuber.`,
-    },
-    description: `A starter blog demonstrating what Gatsby can do.`,
-    siteUrl: `https://gatsbystarterblogsource.gatsbyjs.io/`,
-    social: {
-      twitter: `measajay`,
-    },
-  },
-	 
-	
+  /**
+   * Adding plugins to this array adds them to your Gatsby site.
+   *
+   * Gatsby has a rich ecosystem of plugins.
+   * If you need any more you can search here: https://www.gatsbyjs.com/plugins/
+   */
   plugins: [
-    `gatsby-plugin-image`,
+    {
+      /**
+       * First up is the WordPress source plugin that connects Gatsby
+       * to your WordPress site.
+       *
+       * visit the plugin docs to learn more
+       * https://github.com/gatsbyjs/gatsby/blob/master/packages/gatsby-source-wordpress/README.md
+       *
+       */
+      resolve: `gatsby-source-wordpress`,
+      options: {
+        // the only required plugin option for WordPress is the GraphQL url.
+        url:
+          process.env.WPGRAPHQL_URL ||
+          `https://www.learningblaze.com/graphql`,
+          //`https://wpgatsbydemo.wpengine.com/graphql`,
+      },
+    },
+
+    /**
+     * We need this plugin so that it adds the "File.publicURL" to our site
+     * It will allow us to access static url's for assets like PDF's
+     *
+     * See https://www.gatsbyjs.org/packages/gatsby-source-filesystem/ for more info
+     */
     {
       resolve: `gatsby-source-filesystem`,
       options: {
-        path: `${__dirname}/content/blog`,
-        name: `blog`,
+        name: `assets`,
+        path: `${__dirname}/content/assets`,
       },
     },
-   
-    
-    
-    
-    
-    
-    
-    {
-      resolve: `gatsby-source-filesystem`,
-      options: {
-        name: `images`,
-        path: `${__dirname}/src/images`,
-      },
-    },
-    {
-      resolve: `gatsby-transformer-remark`,
-      options: {
-        plugins: [
-          {
-            resolve: `gatsby-remark-images`,
-            options: {
-              maxWidth: 630,
-            },
-          },
-          {
-            resolve: `gatsby-remark-responsive-iframe`,
-            options: {
-              wrapperStyle: `margin-bottom: 1.0725rem`,
-            },
-          },
-          `gatsby-remark-prismjs`,
-          `gatsby-remark-copy-linked-files`,
-          `gatsby-remark-smartypants`,
-        ],
-      },
-    },
+
+    /**
+     * The following two plugins are required if you want to use Gatsby image
+     * See https://www.gatsbyjs.com/docs/gatsby-image/#setting-up-gatsby-image
+     * if you're curious about it.
+     */
     `gatsby-transformer-sharp`,
     `gatsby-plugin-sharp`,
-    // {
-    //   resolve: `gatsby-plugin-google-analytics`,
-    //   options: {
-    //     trackingId: `ADD YOUR TRACKING ID HERE`,
-    //   },
-    // },
+    `gatsby-plugin-image`,
     {
-      resolve: `gatsby-plugin-feed`,
-      options: {
-        query: `
-          {
-            site {
-              siteMetadata {
-                title
-                description
-                siteUrl
-                site_url: siteUrl
-              }
-            }
-          }
-        `,
-        feeds: [
-          {
-            serialize: ({ query: { site, allMarkdownRemark } }) => {
-              return allMarkdownRemark.nodes.map(node => {
-                return Object.assign({}, node.frontmatter, {
-                  description: node.excerpt,
-                  date: node.frontmatter.date,
-                  url: site.siteMetadata.siteUrl + node.fields.slug,
-                  guid: site.siteMetadata.siteUrl + node.fields.slug,
-                  custom_elements: [{ "content:encoded": node.html }],
-                })
-              })
-            },
-            query: `
-              {
-                allMarkdownRemark(
-                  sort: { order: DESC, fields: [frontmatter___date] },
-                ) {
-                  nodes {
-                    excerpt
-                    html
-                    fields {
-                      slug
-                    }
-                    frontmatter {
-                      title
-                      date
-                    }
-                  }
-                }
-              }
-            `,
-            output: "/rss.xml",
-            title: "Gatsby Starter Blog RSS Feed",
-          },
-        ],
-      },
-    },
-    {
+      // See https://www.gatsbyjs.com/plugins/gatsby-plugin-manifest/?=gatsby-plugin-manifest
       resolve: `gatsby-plugin-manifest`,
       options: {
-        name: `Gatsby Starter Blog`,
-        short_name: `GatsbyJS`,
+        name: `Gatsby Starter WordPress Blog`,
+        short_name: `GatsbyJS & WP`,
         start_url: `/`,
         background_color: `#ffffff`,
-        // This will impact how browsers show your PWA/website
-        // https://css-tricks.com/meta-theme-color-and-trickery/
-        // theme_color: `#663399`,
+        theme_color: `#663399`,
         display: `minimal-ui`,
-        icon: `src/images/gatsby-icon.png`, // This path is relative to the root of the site.
+        icon: `content/assets/gatsby-icon.png`,
       },
     },
+
+    // See https://www.gatsbyjs.com/plugins/gatsby-plugin-react-helmet/?=gatsby-plugin-react-helmet
     `gatsby-plugin-react-helmet`,
-    // this (optional) plugin enables Progressive Web App + Offline functionality
-    // To learn more, visit: https://gatsby.dev/offline
+
+    /**
+     * this (optional) plugin enables Progressive Web App + Offline functionality
+     * To learn more, visit: https://gatsby.dev/offline
+     */
     // `gatsby-plugin-offline`,
   ],
 }
