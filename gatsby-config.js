@@ -20,6 +20,22 @@ module.exports = {
         name: `blog`,
       },
     },
+    //ajay
+    {
+			resolve: `gatsby-source-wordpress`,
+			options: {
+				url:
+					process.env.WPGRAPHQL_URL ||
+					`https://www.learningblaze.com/graphql`,
+			},
+		},
+    //ajay
+    
+    
+    
+    
+    
+    
     {
       resolve: `gatsby-source-filesystem`,
       options: {
