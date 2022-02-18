@@ -1,14 +1,14 @@
 module.exports = {
   siteMetadata: {
-    title: `Gatsby Starter Blog`,
+    title: `Ajay Gatsby Blog`,
     author: {
       name: `Ajay Kumar`,
-      summary: `Test who lives and works in San Francisco building useful things.`,
+      summary: `Blogger And YouTuber.`,
     },
     description: `A starter blog demonstrating what Gatsby can do.`,
     siteUrl: `https://gatsbystarterblogsource.gatsbyjs.io/`,
     social: {
-      twitter: `kylemathews`,
+      twitter: `measajay`,
     },
   },
   plugins: [
